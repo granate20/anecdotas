@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Anecdotas</title>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+
+    <link rel="stylesheet" href="css/jquery.slotmachine.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" src="js/jquery.slotmachine.js"></script>
+
+    <script type="text/javascript" src="js/shake.js"></script>
+
+    <style>
+        .ui-page {
+            background: rgba(159, 127, 253, 1);
+            background: -moz-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: -webkit-gradient(left top, right top, color-stop(0%, rgba(159, 127, 253, 1)), color-stop(100%, rgba(116, 188, 247, 1)));
+            background: -webkit-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: -o-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: -ms-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: linear-gradient(to right, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#9f7ffd', endColorstr='#74bcf7', GradientType=1);
+        }
+
+        .background-degrade {
+            background: rgba(159, 127, 253, 1);
+            background: -moz-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: -webkit-gradient(left top, right top, color-stop(0%, rgba(159, 127, 253, 1)), color-stop(100%, rgba(116, 188, 247, 1)));
+            background: -webkit-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: -o-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: -ms-linear-gradient(left, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            background: linear-gradient(to right, rgba(159, 127, 253, 1) 0%, rgba(116, 188, 247, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#9f7ffd', endColorstr='#74bcf7', GradientType=1);
+        }
+
+        #jugar {
+            background: rgba(213, 213, 211, 1);
+            background: -moz-linear-gradient(left, rgba(213, 213, 211, 1) 0%, rgba(255, 255, 255, 1) 31%, rgba(255, 255, 255, 1) 49%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 73%, rgba(213, 213, 211, 1) 99%);
+            background: -webkit-gradient(left top, right top, color-stop(0%, rgba(213, 213, 211, 1)), color-stop(31%, rgba(255, 255, 255, 1)), color-stop(49%, rgba(255, 255, 255, 1)), color-stop(50%, rgba(255, 255, 255, 1)), color-stop(73%, rgba(255, 255, 255, 1)), color-stop(99%, rgba(213, 213, 211, 1)));
+            background: -webkit-linear-gradient(left, rgba(213, 213, 211, 1) 0%, rgba(255, 255, 255, 1) 31%, rgba(255, 255, 255, 1) 49%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 73%, rgba(213, 213, 211, 1) 99%);
+            background: -o-linear-gradient(left, rgba(213, 213, 211, 1) 0%, rgba(255, 255, 255, 1) 31%, rgba(255, 255, 255, 1) 49%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 73%, rgba(213, 213, 211, 1) 99%);
+            background: -ms-linear-gradient(left, rgba(213, 213, 211, 1) 0%, rgba(255, 255, 255, 1) 31%, rgba(255, 255, 255, 1) 49%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 73%, rgba(213, 213, 211, 1) 99%);
+            background: linear-gradient(to right, rgba(213, 213, 211, 1) 0%, rgba(255, 255, 255, 1) 31%, rgba(255, 255, 255, 1) 49%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 73%, rgba(213, 213, 211, 1) 99%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#d5d5d3', endColorstr='#d5d5d3', GradientType=1);
+        }
+        .text_ruleta
+        {
+          color: rgba(255, 255, 255, 0.298039);
+        text-shadow: rgba(255, 255, 255, 0.498039) 0px 0px 15px, rgba(255, 255, 255, 0.498039) 0px 0px 10px;
+        position:absolute;  color:#FFF;
+        left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!--<div class="app">
+        <h1>PhoneGap</h1>
+        <div id="deviceready" class="blink">
+            <p class="event listening">Connecting to Device</p>
+            <p class="event received">Device is Ready</p>
+        </div>
+    </div>-->
+
+    <!-- Start of first page -->
+    <div data-role="page" id="foo">
+
+
+        <div role="main" class="ui-content">
+
+
+            <div class="ui-grid-a">
+
+                <div class="ui-block-a"></div>
+
+                <div class="ui-block-b" style="margin-top:5%;"><img src="img/logo.fw.png" style="width:100%;"></div>
+            </div>
+            <div class="ui-grid-solo" style="margin-top:25%;">
+                <h1 style="color:#FFF;">ANECDOTAS</h1>
+            </div>
+
+
+
+        </div>
+        <!-- /content -->
+
+        <div data-role="footer" style="background:url('img/inicio_imagen.fw.png'); background-position:left; background-size:150% 150%;" data-position="fixed" data-fullscreen="true">
+
+            <div class="ui-grid-solo" style="background-color:#FFF;margin:5%; padding:10px;">
+                <form>
+                    <div class="ui-grid-solo">
+                        <label for="text-1">Ingrese su suario:</label>
+                        <input type="text" name="text-1" id="text-1" value="">
+                        <label for="text-3">Contraseña:</label>
+                        <input type="text" data-clear-btn="true" type="password" name="text-3" id="text-3" value="">
+                    </div>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a"><a href="#registarse" class="ui-btn ui-btn-a">Registrarse</a></div>
+                        <div class="ui-block-a"><a href="#inicio" class="ui-btn ui-btn-a">Registrarse</a></div>
+                        <!--<div class="ui-block-b"><button class="ui-btn ui-btn-b ui-icon-check ui-btn-icon-left">Ingresar</button></div>-->
+                    </div>
+
+                </form>
+
+
+            </div>
+            <br><br><br>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+
+    <!-- Start of second page -->
+    <div data-role="page" id="inicio" style="background-image:url('img/slotmachine_fondo.fw.png');background-size:100% 100%;background-attachment: fixed;">
+
+
+        <!-- /header -->
+
+        <div role="main" class="ui-content" align="center">
+
+            <h2 style="margin-top:30%; line-height:2; font-family:Myriad Pro;">To play this game, <br>
+grab a group,<br>
+and shake the phone.<br>
+You will receive a <br>
+feeling and a context,<br>
+share an <br>
+anecdote accordingly.</h2>
+
+        </div>
+
+        <div style="background:#000" data-role="footer" data-position="fixed" data-fullscreen="true">
+            <a href="#jugar" class="ui-btn ui-icon-arrow-r ui-btn-icon-right ui-corner-all" style="background-color:#000; color:#FFF; width:70%; margin-left:10%;">Siguiente</a>
+        </div>
+
+        <!-- /content -->
+
+    </div>
+    <!-- /page -->
+
+    <!-- Start of second page -->
+    <div data-role="page" id="registrarse">
+
+
+        <div data-role="header">
+            <a href="#foo" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext">Volver</a>
+            <h1>Registrarse</h1>
+        </div>
+        <!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <div class="ui-grid-solo">
+                <h2>Formulario de Registro</h2>
+                <form id="register" action="#">
+                    <div class="ui-grid-solo">
+                        <label for="Remail">Email:</label>
+                        <input type="text" id="Remail" value="" type="email">
+                        <label for="Rpassword">Password:</label>
+                        <input type="text" data-clear-btn="true" type="password" id="Rpassword">
+                        <label for="Rnombre">Nombre:</label>
+                        <input type="text" id="Rnombre" value="">
+                        <label for="Rapellido">Apellido:</label>
+                        <input type="text" id="Rapellido" value="">
+                        <label for="Rpais">País:</label>
+                        <input type="text" id="Rpais" value="">
+
+                        <button id="registrarse" class="ui-btn ui-btn-a ui-icon-check ui-btn-icon-left">Registrarse</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+        <!-- /content -->
+
+    </div>
+    <!-- /page -->
+
+
+
+    <!-- Start of second page -->
+    <div data-role="page" id="jugar" class="background-jugar">
+
+
+        <div data-role="header" class="background-degrade">
+            <h1>ANECDOTAS</h1>
+        </div>
+        <!-- /header -->
+
+        <div role="main" class="ui-content" align="center">
+
+            <h1><strong>SHAKE</strong></h1>
+            <div class="ui-grid-solo" style="margin-top:5%;">
+
+                <div id="machine1" class="randomizeMachine" style="width: 90%; overflow: hidden;">
+                    <div><h2 class="text_ruleta">INFANCIA</h2><img src="img/contextos/1.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">COLEGIO</h2><img src="img/contextos/2.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">VACACIONES</h2><img src="img/contextos/3.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">UNIVERSIDAD</h2><img src="img/contextos/4.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">TRABAJO</h2><img src="img/contextos/5.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">VIAJE</h2><img src="img/contextos/6.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">FAMILIA</h2><img src="img/contextos/7.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">AMIGOS</h2><img src="img/contextos/8.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">SOLEDAD</h2><img src="img/contextos/9.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">ADOLESCENCIA</h2><img src="img/contextos/10.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">PAREJA</h2><img src="img/contextos/11.jpg" style="width:100%" /></div>
+                </div>
+
+            </div>
+            <button onclick="sharePhoto()" id="compartir" class="ui-btn ui-icon-forward ui-btn-icon-left ui-shadow ui-corner-all">Compartelo Ahora!</button>
+            <div class="ui-grid-solo" style="margin-top:5%;">
+                <div id="machine2" class="randomizeMachine2" style="width: 90%; overflow: hidden;">
+                    <div><h2 class="text_ruleta">ALEGRIA</h2><img src="img/sentimientos/1.jpg" style="width:100%" />Sentimiento</div>
+                    <div><h2 class="text_ruleta">MIEDO</h2><img src="img/sentimientos/2.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">ADMIRACION</h2><img src="img/sentimientos/3.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">PERDON</h2><img src="img/sentimientos/4.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">ENOJO</h2><img src="img/sentimientos/5.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">VERGUENZA</h2><img src="img/sentimientos/6.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">ASCO</h2><img src="img/sentimientos/7.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">ENVIDIA</h2><img src="img/sentimientos/8.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">PAZ</h2><img src="img/sentimientos/9.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">LIBERTAD</h2><img src="img/sentimientos/10.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">COMPAÑERISMO</h2><img src="img/sentimientos/11.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">ESPERANZA</h2><img src="img/sentimientos/12.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">ALIVIO</h2><img src="img/sentimientos/13.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">AGRADECIMIENTO</h2><img src="img/sentimientos/14.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">CONFIANZA</h2><img src="img/sentimientos/15.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">DESILUSION</h2><img src="img/sentimientos/16.jpg" style="width:100%" /></div>
+                    <div><h2 class="text_ruleta">SOLEDAD</h2><img src="img/sentimientos/17.jpg" style="width:100%" /></div>
+                </div>
+
+            </div>
+
+            <button onclick="girar();" style="background-color:rgba(159, 127, 253, 1)" class="ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-notext">Play</button>
+
+        </div>
+
+
+        <!-- /content -->
+
+    </div>
+    <!-- /page -->
+
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <!--<script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>-->
+    <script>
+        //bind an event handler to the submit event for your login form
+        $(document).on('submit', '#register', function(e) {
+
+            //cache the form element for use in this function
+            var $this = $(this);
+
+            //prevent the default submission of the form
+            e.preventDefault();
+
+            alert(JSON.stringify($this.serialize()));
+            //run an AJAX post request to your server-side script, $this.serialize() is the data from your form being added to the request
+            //  $.post($this.attr('action'), $this.serialize(), function (responseData) {
+
+            //in here you can analyze the output from your server-side script (responseData) and validate the user's login without leaving the page
+            //});
+        });
+
+
+        function recalcularAlto() {
+            var screen = $.mobile.getScreenHeight(),
+                header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight(),
+                footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight(),
+                contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height(),
+                content = screen - header - footer - contentCurrent;
+            $(".ui-content").height(content);
+            $('#machine1').height(content * 0.35);
+            $('#machine2').height(content * 0.35);
+        }
+
+        $(document).on("pagecontainertransition", recalcularAlto());
+        $(window).on("resize", recalcularAlto());
+        $(window).on("orientationchange", recalcularAlto());
+
+        var machine1 = $("#machine1").slotMachine({
+            active: 0,
+            delay: 500
+        });
+        var machine2 = $("#machine2").slotMachine({
+            active: 1,
+            delay: 500,
+            direction: 'down'
+        });
+
+var resultado="";
+        function onComplete(active) {
+            switch (this.element[0].id) {
+                case 'machine1':
+                    //$("#titulo").html("Index: "+this.active);
+                    break;
+                case 'machine2':
+
+                  $('#compartir').show();
+
+                    break;
+            }
+        }
+
+        function girar() {
+          $('#compartir').hide();
+            machine1.shuffle(5, onComplete);
+            setTimeout(function() {
+                machine2.shuffle(5, onComplete);
+            }, 500);
+        }
+
+        function onDetected() {
+
+        girar();
+
+    	}
+//al cambiar la página
+        $(document).on("pagechange", function (e, data) {
+          var page = data.toPage[0].id;
+          if(page=="jugar")
+          {
+              $('#compartir').hide();
+              shake.startWatch(onDetected);
+          }
+        });
+
+
+        //función de compartir
+          function sharePhoto() {
+           var imageLink;
+                  console.log('Calling from CapturePhoto');
+                  navigator.screenshot.save(function(error,res){
+                  if(error){
+                  console.error(error);
+                  }else{
+                  console.log('ok',res.filePath); //should be path/to/myScreenshot.jpg
+                  //For android
+                  imageLink = res.filePath;
+                 window.plugins.socialsharing.share(null, null,'file://'+imageLink, null);
+
+                 //For iOS
+                 //window.plugins.socialsharing.share(null,   null,imageLink, null)
+           }
+           },'jpg',50,'myScreenShot');
+          }
+
+
+    </script>
+
+</body>
+
+</html>
